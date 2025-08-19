@@ -1,0 +1,336 @@
+:root {
+    --primary: #1a1a1a;
+    --accent: #0066cc;
+    --gold: #d4af37;
+    --gray-50: #fafafa;
+    --gray-100: #f5f5f5;
+    --gray-200: #e5e5e5;
+    --gray-600: #666666;
+    --gray-800: #262626;
+    --white: #ffffff;
+    --shadow-sm: 0 2px 4px rgba(0,0,0,0.04);
+    --shadow-md: 0 4px 12px rgba(0,0,0,0.08);
+    --shadow-lg: 0 8px 32px rgba(0,0,0,0.12);
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Inter', sans-serif;
+    line-height: 1.6;
+    color: var(--primary);
+    background: var(--white);
+    font-weight: 400;
+}
+
+.container {
+    margin: 0 auto;
+    padding: 0 0rem;
+}
+
+/* Header */
+.header {
+    padding: 5rem 0;
+    text-align: center;
+    background: linear-gradient(180deg, var(--gray-50) 0%, var(--white) 100%);
+    margin-bottom: 5rem;
+    background-image: url('https://s26162.pcdn.co/wp-content/uploads/2015/04/tc_old_oldstore_a.jpg'); /* đường dẫn ảnh */
+    background-size: cover;       /* để ảnh phủ kín */
+    background-position: center;
+}
+
+.header-title {
+    font-size: 7.5rem;
+    font-weight: 500;
+    color: #343bc2;
+    margin-bottom: 1rem;
+    letter-spacing: -0.02em;
+}
+
+.btn-primary {
+    background: var(--primary);
+    color: var(--white);
+    padding: 14px 32px;
+    border: none;
+    border-radius: 2px;
+    font-size: 0.875rem;
+    font-weight: 500;
+    text-decoration: none;
+    display: inline-block;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    transition: all 0.3s ease;
+}
+
+.btn-primary:hover {
+    background: var(--gray-800);
+    color: var(--white);
+    transform: translateY(-1px);
+    box-shadow: var(--shadow-lg);
+}
+
+/* Section */
+.section {
+    margin-bottom: 5rem;
+}
+
+.section-title {
+    font-size: 2rem;
+    font-weight: 500;
+    color: var(--primary);
+    margin-bottom: 3rem;
+    text-align: center;
+    position: relative;
+}
+
+.section-title::after {
+    content: '';
+    position: absolute;
+    bottom: -8px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 40px;
+    height: 1px;
+    background: var(--gold);
+}
+
+/* Product Grid */
+.product-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 2rem;
+    margin-bottom: 3rem;
+    padding: 0 4rem;
+}
+
+.product-card {
+    background: var(--white);
+    border-radius: 0;
+    overflow: hidden;
+    transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    border: 1px solid var(--gray-200);
+    flex-direction: column; 
+    height: 100%;
+}
+
+.product-card:hover {
+    transform: translateY(-8px);
+    box-shadow: var(--shadow-lg);
+    border-color: var(--gray-600);
+}
+
+.product-image {
+    width: 100%;
+    height: 375px;
+    object-fit: cover;
+    transition: transform 0.4s ease;
+}
+
+.product-card:hover .product-image {
+    transform: scale(1.02);
+}
+
+.product-content {
+    padding: 2rem 1.5rem;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+}
+
+.product-title {
+    font-size: 1rem;
+    font-weight: 500;
+    color: var(--primary);
+    margin-bottom: 0.5rem;
+    line-height: 1.4;
+}
+
+.product-price {
+    font-size: 1.125rem;
+    font-weight: 600;
+    color: var(--accent);
+    margin-bottom: 1.5rem;
+}
+
+.btn-secondary {
+    background: transparent;
+    color: var(--primary);
+    border: 1px solid var(--gray-200);
+    padding: 10px 24px;
+    font-size: 0.875rem;
+    font-weight: 400;
+    text-decoration: none;
+    display: inline-block;
+    transition: all 0.3s ease;
+}
+
+.btn-secondary:hover {
+    background: var(--primary);
+    color: var(--white);
+    border-color: var(--primary);
+}
+
+/* Promotion */
+.promotion {
+    background: var(--primary);
+    color: var(--white);
+    padding: 4rem 3rem;
+    text-align: center;
+    margin: 5rem 0;
+    position: relative;
+    overflow: hidden;
+}
+
+.promotion::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 100px;
+    height: 100px;
+    background: linear-gradient(135deg, var(--gold), transparent);
+    opacity: 0.1;
+}
+
+.promotion-title {
+    font-size: 2rem;
+    font-weight: 500;
+    margin-bottom: 1rem;
+    position: relative;
+}
+
+.promotion-text {
+    font-size: 1.125rem;
+    margin-bottom: 2rem;
+    opacity: 0.9;
+    font-weight: 300;
+}
+
+.btn-gold {
+    background: var(--gold);
+    color: var(--primary);
+    padding: 14px 32px;
+    border: none;
+    font-size: 0.875rem;
+    font-weight: 600;
+    text-decoration: none;
+    display: inline-block;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    transition: all 0.3s ease;
+}
+
+.btn-gold:hover {
+    background: #c19b26;
+    color: var(--primary);
+    transform: translateY(-1px);
+}
+
+/* Contact */
+.contact-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 3rem;
+}
+
+.contact-item {
+    text-align: center;
+    padding: 2.5rem 2rem;
+    background: var(--gray-50);
+    transition: all 0.3s ease;
+}
+
+.contact-item:hover {
+    background: var(--white);
+    box-shadow: var(--shadow-md);
+}
+
+.contact-title {
+    font-size: 1.125rem;
+    font-weight: 500;
+    color: var(--primary);
+    margin-bottom: 1rem;
+}
+
+.contact-info {
+    color: var(--gray-600);
+    font-weight: 300;
+    line-height: 1.8;
+}
+
+.contact-info strong {
+    color: var(--primary);
+    font-weight: 500;
+}
+
+/* Animations */
+.fade-in {
+    opacity: 0;
+    transform: translateY(30px);
+    transition: all 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+}
+
+.fade-in.visible {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+/* Responsive */
+@media (max-width: 1024px) {
+    .product-grid {
+        grid-template-columns: repeat(3, 1fr);
+        gap: 1.5rem;
+    }
+}
+
+@media (max-width: 768px) {
+    .container {
+        padding: 0 1rem;
+    }
+    
+    .header {
+        padding: 3rem 0;
+        margin-bottom: 3rem;
+    }
+    
+    .header-title {
+        font-size: 2.25rem;
+    }
+    
+    .product-grid {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 1rem;
+    }
+    
+    .product-content {
+        padding: 1.5rem 1rem;
+    }
+    
+    .promotion {
+        padding: 3rem 2rem;
+    }
+    
+    .promotion-title {
+        font-size: 1.5rem;
+    }
+    
+    .contact-grid {
+        grid-template-columns: 1fr;
+        gap: 1.5rem;
+    }
+    
+    .section {
+        margin-bottom: 3rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .product-grid {
+        grid-template-columns: 1fr;
+    }
+}

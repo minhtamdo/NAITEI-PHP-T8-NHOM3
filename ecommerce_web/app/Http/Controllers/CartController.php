@@ -8,12 +8,24 @@ class CartController extends Controller
 {
     public function index()
     {
-        $cart = session()->get('cart', []);
-        $total = 0;
-        foreach ($cart as $item) {
-            $total += $item['price'] * $item['quantity'];
-        }
-        return view('cart.index', compact('cart', 'total'));
+        $cart = [
+            [
+                'id' => 1,
+                'name' => 'Sách Laravel cơ bản',
+                'price' => 150000,
+                'quantity' => 2,
+                'image' => 'https://via.placeholder.com/100x120.png?text=Laravel'
+            ],
+            [
+                'id' => 2,
+                'name' => 'Áo Hoodie',
+                'price' => 350000,
+                'quantity' => 1,
+                'image' => 'https://via.placeholder.com/100x120.png?text=Hoodie'
+            ]
+        ];
+
+        return view('cart.index', compact('cart'));
     }
 
     public function add(Request $request)

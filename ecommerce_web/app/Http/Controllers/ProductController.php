@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 
 
 use App\Models\Product;
+use App\Models\Category;
 use Illuminate\Http\Request;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Validation\ValidationException;
@@ -59,9 +60,6 @@ class ProductController extends Controller{
         }
     }
 
-
-
-
     public function show(string $id): JsonResponse
     {
         try {
@@ -91,9 +89,6 @@ class ProductController extends Controller{
             ], 500);
         }
     }
-
-
-
 
     public function update(Request $request, string $id): JsonResponse
     {
@@ -204,8 +199,59 @@ class ProductController extends Controller{
             ->with('success', 'Đánh giá đã được gửi!');
     }
 
+    // public function category()
+    // {
+    //     return $this->belongsTo(Category::class);
+    // }
 
-   
+    public function viewall(Request $request)
+    {
+        // Query ban đầu
+        $query = Product::query();
+
+        // Tìm kiếm theo từ khóa (name, author, category)
+        if ($request->filled('keyword')) {
+        $search = $request->input('keyword');
+        $query->where(function ($q) use ($search) {
+            $q->where('name', 'like', "%{$search}%")
+              ->orWhere('author', 'like', "%{$search}%");
+        });
+        }
+
+        // Lọc theo category
+        if ($request->filled('category')) {
+            $query->where('category_id', $request->input('category'));
+        }
+
+        // Sắp xếp
+        if ($request->filled('sort')) {
+            switch ($request->input('sort')) {
+                case 'price-low':
+                    $query->orderBy('price', 'asc');
+                    break;
+                case 'price-high':
+                    $query->orderBy('price', 'desc');
+                    break;
+                case 'name':
+                    $query->orderBy('name', 'asc');
+                    break;
+            }
+        }
+
+        // Phân trang
+        $products = $query->paginate(20)->appends($request->query());
+
+        // Lấy tất cả categories để truyền ra view
+        $categories = Category::all();
+
+        return view('products.index', compact('products', 'categories'));
+    }
+
+    public function detail($id)
+    {
+        $product = Product::findOrFail($id);
+        return view('products.show', compact('product'));
+    }
 }
 
 

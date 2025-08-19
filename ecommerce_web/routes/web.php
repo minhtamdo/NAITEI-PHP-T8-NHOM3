@@ -1,7 +1,6 @@
 <?php
 
 use App\Http\Controllers\AdminController;
-use App\Http\Controllers\LanguageController;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Auth;
@@ -10,12 +9,10 @@ use App\Http\Controllers\HomeController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\CartController;
 use App\Http\Controllers\OrderController;
-use Illuminate\Http\Request;
 
 Route::get('/home', [HomeController::class, 'index'])->name('home');
-
-Route::get('/products', [ProductController::class, 'index'])->name('products.index');
-Route::get('/products/{id}', [ProductController::class, 'show'])->name('products.show');
+Route::get('/products', [ProductController::class, 'viewall'])->name('products.viewall');
+Route::get('/products/{id}', [ProductController::class, 'detail'])->name('products.detail');
 Route::post('/products/{id}/review', [ProductController::class, 'addReview'])->name('products.review');
 
 Route::get('/cart', [CartController::class, 'index'])->name('cart.index');

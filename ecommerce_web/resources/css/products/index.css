@@ -1,0 +1,355 @@
+:root {
+    --primary: #1a1a1a;
+    --accent: #0066cc;
+    --gold: #d4af37;
+    --gray-50: #fafafa;
+    --gray-100: #f5f5f5;
+    --gray-200: #e5e5e5;
+    --gray-600: #666666;
+    --gray-800: #262626;
+    --white: #ffffff;
+    --success: #059669;
+    --shadow-sm: 0 2px 4px rgba(0,0,0,0.04);
+    --shadow-md: 0 4px 12px rgba(0,0,0,0.08);
+    --shadow-lg: 0 8px 32px rgba(0,0,0,0.12);
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Inter', sans-serif;
+    line-height: 1.6;
+    color: var(--primary);
+    background: var(--white);
+    font-weight: 400;
+}
+
+.container {
+    margin: 0 auto;
+}
+
+/* Header */
+.product-page-header {
+    padding: 3rem 0 2rem;
+    text-align: center;
+    background: linear-gradient(180deg, var(--gray-50) 0%, var(--white) 100%);
+    margin-bottom: 2rem;
+    background-image: url('https://static.vecteezy.com/system/resources/thumbnails/056/840/131/small_2x/a-minimalistic-and-modern-composition-of-stack-of-books-neatly-arranged-on-the-right-side-against-a-clean-white-background-with-empty-space-on-the-left-for-text-photo.jpg'); /* link ảnh nền */
+    background-size: cover; 
+    background-position: center;
+    height: 350px;
+}
+
+.product-page-title {
+    font-size: 2.5rem;
+    font-weight: 400;
+    color: var(--primary);
+    margin-bottom: 1rem;
+    letter-spacing: -0.02em;
+}
+
+.product-page-subtitle {
+    font-size: 1rem;
+    color: var(--gray-600);
+    font-weight: 300;
+    position: relative;
+}
+
+.product-page-subtitle::after {
+    content: '';
+    position: absolute;
+    bottom: -12px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 60px;
+    height: 1px;
+    background: var(--gold);
+}
+
+/* Filter & Sort Section */
+.filter-section {
+    margin-bottom: 3rem;
+    padding: 2rem 4rem;
+    background: var(--gray-50);
+    border-radius: 0;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 1rem;
+}
+
+.filter-group {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+}
+
+.filter-label {
+    font-size: 0.875rem;
+    font-weight: 500;
+    color: var(--primary);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.filter-select, .search-input {
+    padding: 8px 16px;
+    border: 1px solid var(--gray-200);
+    background: var(--white);
+    font-size: 0.875rem;
+    font-weight: 400;
+    color: var(--primary);
+    transition: all 0.3s ease;
+}
+
+.filter-select:focus, .search-input:focus {
+    outline: none;
+    border-color: var(--accent);
+}
+
+.search-input {
+    width: 250px;
+}
+
+/* Product Grid */
+.product-list {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 2rem;
+    margin-bottom: 4rem;
+    padding: 0 3rem;
+}
+
+.product-card {
+    background: var(--white);
+    border: 1px solid var(--gray-200);
+    transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    overflow: hidden;
+    position: relative;
+}
+
+.product-card:hover {
+    transform: translateY(-8px);
+    box-shadow: var(--shadow-lg);
+    border-color: var(--gray-600);
+}
+
+.product-image-wrapper {
+    position: relative;
+    overflow: hidden;
+    background: var(--gray-50);
+}
+
+.product-card img {
+    width: 100%;
+    height: 350px;
+    object-fit: cover;
+    transition: transform 0.4s ease;
+}
+
+.product-card:hover img {
+    transform: scale(1.05);
+}
+
+.product-content {
+    padding: 2rem 1.5rem;
+}
+
+.product-title {
+    margin-bottom: 1rem;
+}
+
+.product-title a {
+    font-size: 1.125rem;
+    font-weight: 500;
+    color: var(--primary);
+    text-decoration: none;
+    line-height: 1.4;
+    transition: color 0.3s ease;
+}
+
+.product-title a:hover {
+    color: var(--accent);
+}
+
+.product-price {
+    font-size: 1.25rem;
+    font-weight: 600;
+    color: var(--accent);
+    margin-bottom: 1.5rem;
+}
+
+/* Cart Form */
+.cart-form {
+    margin-bottom: 1rem;
+}
+
+.btn-add-cart {
+    width: 100%;
+    background: var(--primary);
+    color: var(--white);
+    border: none;
+    padding: 12px 24px;
+    font-size: 0.875rem;
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    transition: all 0.3s ease;
+    cursor: pointer;
+}
+
+.btn-add-cart:hover {
+    background: var(--success);
+    transform: translateY(-1px);
+}
+
+.btn-add-cart:active {
+    transform: translateY(0);
+}
+
+.product-details-link {
+    display: block;
+    text-align: center;
+    padding: 8px 0;
+    color: var(--gray-600);
+    text-decoration: none;
+    font-size: 0.875rem;
+    font-weight: 400;
+    transition: color 0.3s ease;
+}
+
+.product-details-link:hover {
+    color: var(--accent);
+}
+
+/* Loading states */
+.loading {
+    text-align: center;
+    padding: 3rem 0;
+    color: var(--gray-600);
+    font-style: italic;
+}
+
+.empty-state {
+    text-align: center;
+    padding: 4rem 0;
+    color: var(--gray-600);
+}
+
+.empty-state h3 {
+    font-size: 1.5rem;
+    font-weight: 400;
+    margin-bottom: 1rem;
+}
+
+
+/* Responsive */
+@media (max-width: 1024px) {
+    .product-list {
+        grid-template-columns: repeat(3, 1fr);
+        gap: 1.5rem;
+    }
+    
+    .filter-section {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 1.5rem;
+    }
+}
+
+@media (max-width: 768px) {
+    .container {
+        padding: 0 1rem;
+    }
+    
+    .page-header {
+        padding: 2rem 0 1.5rem;
+        margin-bottom: 2rem;
+    }
+    
+    .page-title {
+        font-size: 2rem;
+    }
+    
+    .product-list {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 1rem;
+    }
+    
+    .product-content {
+        padding: 1.5rem 1rem;
+    }
+    
+    .search-input {
+        width: 100%;
+    }
+    
+    .filter-group {
+        width: 100%;
+        justify-content: space-between;
+    }
+}
+
+@media (max-width: 480px) {
+    .product-list {
+        grid-template-columns: 1fr;
+    }
+}
+
+/* Animations */
+.fade-in {
+    opacity: 0;
+    transform: translateY(30px);
+    transition: all 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+}
+
+.fade-in.visible {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+.stagger-delay-1 { transition-delay: 0.1s; }
+.stagger-delay-2 { transition-delay: 0.2s; }
+.stagger-delay-3 { transition-delay: 0.3s; }
+.stagger-delay-4 { transition-delay: 0.4s; }
+
+.pagination .disabled .page-link {
+    color: #000;
+    background: #f9f9f9;
+    pointer-events: none;
+    border-color: #eee;
+} 
+
+.btn-search {
+background: var(--primary);
+color: var(--white);
+border: none;
+padding: 8px 20px;
+font-size: 0.875rem;
+font-weight: 500;
+text-transform: uppercase;
+letter-spacing: 0.5px;
+cursor: pointer;
+transition: all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+min-width: 100px;
+}
+
+.btn-search:hover {
+background: var(--gray-800);
+transform: translateY(-1px);
+box-shadow: var(--shadow-md);
+}
+
+.btn-search:active {
+transform: translateY(0);
+}
+
+.btn-search:focus {
+outline: none;
+box-shadow: 0 0 0 2px var(--primary), 0 0 0 4px rgba(26, 26, 26, 0.1);
+}
