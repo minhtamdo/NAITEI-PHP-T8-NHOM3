@@ -144,6 +144,6 @@ class CartController extends Controller
             $product->decrement('stock', $item->quantity);
         });
 
-        return redirect(route('home'))->with('success', 'Đặt hàng thành công! Chúng tôi sẽ liên hệ bạn sớm.');
+        return redirect(route('home'))->with('success', 'Đặt hàng thành công! Chúng tôi sẽ liên hệ bạn trong vòng 48h để xác nhận đơn hàng.');
     }
 }
