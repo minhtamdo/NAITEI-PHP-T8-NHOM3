@@ -29,10 +29,10 @@
                     <select id="statusFilter" class="filter-input">
                         <option value="">Tất cả trạng thái</option>
                         <option value="pending">Chờ xác nhận</option>
-                        <option value="processing">Đang chuẩn bị</option>
-                        <option value="shipped">Đang giao hàng</option>
-                        <option value="delivered">Đã giao hàng</option>
+                        <option value="processing">Đang xử lý</option>
+                        <option value="completed">Hoàn thành</option>
                         <option value="cancelled">Đã hủy</option>
+                        <option value="return">Trả hàng</option>
                     </select>
                 </div>
                 <div class="filter-group">
@@ -57,7 +57,25 @@
                                 <div class="order-date">{{ $order->created_at->format('d/m/Y') }}</div>
                             </div>
                             <div class="order-status status-{{ $order->status }}">
-                                {{ ucfirst($order->status) }}
+                                @switch($order->status)
+                                    @case('pending')
+                                        Chờ xác nhận
+                                        @break
+                                    @case('processing')
+                                        Đang xử lý
+                                        @break
+                                    @case('completed')
+                                        Hoàn thành
+                                        @break
+                                    @case('cancelled')
+                                        Đã hủy
+                                        @break
+                                    @case('return')
+                                        Trả hàng
+                                        @break
+                                    @default
+                                        {{ ucfirst($order->status) }}
+                                @endswitch
                             </div>
                         </div>
                     </div>
@@ -76,7 +94,23 @@
                         <div class="order-details">
                             <div class="detail-card">
                                 <div class="detail-label">Địa chỉ giao hàng</div>
-                                <div class="detail-value">{{ $order->address->details ?? 'Chưa có' }}</div>
+                                <div class="detail-value">
+                                    @if($order->address)
+                                        {{ collect([
+                                            $order->address->details,
+                                            $order->address->ward,
+                                            $order->address->district,
+                                            $order->address->city,
+                                            $order->address->country,
+                                        ])->filter()->implode(', ') }}
+                                        @if($order->address->postal_code)
+                                            ({{ $order->address->postal_code }})
+                                        @endif
+                                    @else
+                                        Chưa có
+                                    @endif
+                                </div>
+
                             </div>
                             <div class="detail-card">
                                 <div class="detail-label">Số điện thoại</div>
@@ -99,9 +133,6 @@
                 </div>
             @endforelse
         </div>
-
-        
-
 
         <div id="emptyState" class="empty-state" style="display: none;">
             <div class="empty-icon">📚</div>

@@ -4,7 +4,7 @@ import { useEffect } from 'react';
 import { router } from '@inertiajs/react';
 import { CheckCircleIcon, XCircleIcon } from 'lucide-react';
 
-export default function OrderManager({ orders }) {
+export default function OrderManager({ orders, onConfirmOrder, processing }) {
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 15;
 
@@ -45,7 +45,7 @@ export default function OrderManager({ orders }) {
   useEffect(() => {
     setFilteredOrders(orders);
   }, [orders]);
-  const sortedOrders = filteredOrders.sort((a, b) => new Date(b.updated_at) - new Date(a.updated_at));
+  const sortedOrders = filteredOrders.sort((a, b) => new Date(b.created_at) - new Date(a.created_at));
   const paginatedOrders = sortedOrders.slice(
     (currentPage - 1) * itemsPerPage,
     currentPage * itemsPerPage
@@ -67,7 +67,7 @@ export default function OrderManager({ orders }) {
       endDate.setHours(23, 59, 59, 999); // Set to end of day
 
       result = result.filter((order) => {
-        const orderDate = new Date(order.updated_at);
+        const orderDate = new Date(order.created_at);
         return orderDate >= startDate && orderDate <= endDate;
       });
     }
@@ -118,12 +118,10 @@ export default function OrderManager({ orders }) {
   const handleSaveStatus = (orderId) => {
     const newStatus = selectedStatus[orderId];
 
-
     if (!newStatus) {
       alert('Please select a status');
       return;
     }
-
     orderForm.setData('status', newStatus);
     orderForm.put(route('admin.orders.update', orderId), {
       onSuccess: () => {
@@ -133,11 +131,6 @@ export default function OrderManager({ orders }) {
           delete newState[orderId];
           return newState;
         });
-        setFilteredOrders(prevOrders =>
-           prevOrders.map(order =>
-             order.id === orderId ? { ...order, status: newStatus } : order
-           )
-         );
         addNotification('success', 'Order status updated successfully');
       },
       onError: (errors) => {
@@ -320,7 +313,17 @@ export default function OrderManager({ orders }) {
                         >
                           View Order
                         </button>
-                        
+                        <button
+                          onClick={() => onConfirmOrder(order.id)}
+                          disabled={order.status !== 'pending' || processing[order.id]}
+                          className={`px-3 py-1 rounded-md ${
+            order.status === 'pending' && !processing[order.id]
+              ? 'bg-green-200 dark:bg-green-600 text-green-800 dark:text-white hover:bg-green-300 dark:hover:bg-green-500'
+              : 'bg-gray-200 dark:bg-gray-600 text-gray-500 dark:text-gray-400 cursor-not-allowed'
+          }`}
+                        >
+                          {processing[order.id] ? 'confirming' : 'accept'}
+                        </button>
                       </div>
                     )}
                   </td>

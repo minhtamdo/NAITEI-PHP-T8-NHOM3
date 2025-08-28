@@ -1,4 +1,3 @@
-
 function getStatusClass(status) {
     const statusMap = {
         'pending': 'status-pending',

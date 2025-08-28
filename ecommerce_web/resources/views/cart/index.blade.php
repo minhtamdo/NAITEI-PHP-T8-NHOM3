@@ -59,14 +59,7 @@
                     <span>Tạm tính:</span>
                     <span id="subtotal">{{ number_format($subtotal ?? 0, 0, ',', '.') }}đ</span>
                 </div>
-                <div class="summary-row">
-                    <span>Phí vận chuyển:</span>
-                    <span id="shipping">{{ number_format($shipping ?? 30000, 0, ',', '.') }}đ</span>
-                </div>
-                <div class="summary-row total">
-                    <span>Tổng cộng:</span>
-                    <span id="total">{{ number_format(($subtotal ?? 0) + ($shipping ?? 30000), 0, ',', '.') }}đ</span>
-                </div>
+                
 
                 <form action="{{ route('checkout') }}" method="GET">
                     <button type="submit" class="checkout-btn">Thanh toán</button>

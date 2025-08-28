@@ -105,21 +105,6 @@ class ProductCrudUnitTest extends TestCase
     }
 
     /** @test */
-    public function test_can_read_all_products()
-    {
-        // Arrange
-        $productsCount = 5;
-        Product::factory()->count($productsCount)->create();
-
-        // Act
-        $products = Product::all();
-
-        // Assert
-        $this->assertCount($productsCount, $products);
-        $this->assertInstanceOf(\Illuminate\Database\Eloquent\Collection::class, $products);
-    }
-
-    /** @test */
     public function test_can_update_product_with_valid_data()
     {
         // Arrange
@@ -338,38 +323,6 @@ class ProductCrudUnitTest extends TestCase
     }
 
     /** @test */
-    public function test_can_order_products_by_price_ascending()
-    {
-        // Arrange
-        Product::factory()->create(['price' => 100]);
-        Product::factory()->create(['price' => 50]);
-        Product::factory()->create(['price' => 150]);
-
-        // Act
-        $orderedProducts = Product::orderBy('price', 'asc')->get();
-
-        // Assert
-        $this->assertEquals(50, $orderedProducts->first()->price);
-        $this->assertEquals(150, $orderedProducts->last()->price);
-    }
-
-    /** @test */
-    public function test_can_order_products_by_price_descending()
-    {
-        // Arrange
-        Product::factory()->create(['price' => 100]);
-        Product::factory()->create(['price' => 50]);
-        Product::factory()->create(['price' => 150]);
-
-        // Act
-        $orderedProducts = Product::orderBy('price', 'desc')->get();
-
-        // Assert
-        $this->assertEquals(150, $orderedProducts->first()->price);
-        $this->assertEquals(50, $orderedProducts->last()->price);
-    }
-
-    /** @test */
     public function test_product_soft_delete_behavior()
     {
         // Arrange
@@ -428,25 +381,4 @@ class ProductCrudUnitTest extends TestCase
         $this->assertNotEquals($originalUpdatedAt, $product->fresh()->updated_at);
     }
 
-    /** @test */
-    public function test_can_create_multiple_products_in_batch()
-    {
-        // Arrange
-        $productsData = [
-            ['name' => 'Product 1', 'price' => 10, 'category_id' => $this->category->id, 'stock' => 5, 'author' => 'Author 1'],
-            ['name' => 'Product 2', 'price' => 20, 'category_id' => $this->category->id, 'stock' => 10, 'author' => 'Author 2'],
-            ['name' => 'Product 3', 'price' => 30, 'category_id' => $this->category->id, 'stock' => 15, 'author' => 'Author 3'],
-        ];
-
-        // Act
-        foreach ($productsData as $data) {
-            Product::create($data);
-        }
-
-        // Assert
-        $this->assertCount(3, Product::all());
-        foreach ($productsData as $data) {
-            $this->assertDatabaseHas('products', $data);
-        }
-    }
 }

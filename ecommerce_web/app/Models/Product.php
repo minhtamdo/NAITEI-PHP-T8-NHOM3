@@ -9,12 +9,12 @@ use Illuminate\Support\Facades\Storage;
 class Product extends Model
 {
     use HasFactory;
-     /**
+    
+    /**
      * The attributes that are mass assignable.
      *
      * @var array
      */
-    use HasFactory;
     protected $fillable = [
         'name',
         'description',
@@ -23,8 +23,8 @@ class Product extends Model
         'stock',
         'image_url',
         'author',
-        // Add other fields as needed
     ];
+
     /**
      * Get the category that owns the product.
      */
@@ -32,6 +32,7 @@ class Product extends Model
     {
         return $this->belongsTo(Category::class);
     }
+
     /**
      * Get the order items for the product.
      */
@@ -39,6 +40,7 @@ class Product extends Model
     {
         return $this->hasMany(OrderItem::class);
     }
+
     /**
      * Get the cart items for the product.
      */
@@ -46,6 +48,7 @@ class Product extends Model
     {
         return $this->hasMany(CartItem::class);
     }
+
     /**
      * Get the reviews for the product.
      */
@@ -55,26 +58,31 @@ class Product extends Model
     }
 
     /**
-     * Accessor: Lấy URL đầy đủ của ảnh (chỉ file local)
+     * Accessor: Lấy URL đầy đủ của ảnh
      */
     public function getImageUrlAttribute()
     {
-        if (!$this->image) {
-            // Kiểm tra xem có file no_image.png trong public/images không
-            if (file_exists(public_path('images/no_image.png'))) {
-                return asset('images/no_image.png');
-            }
-            // Tạo no_image nếu chưa có
-            return $this->createNoImageIfNotExists();
+        // Lấy giá trị từ database
+        $imageUrl = $this->attributes['image_url'] ?? null;
+        
+        if (!$imageUrl) {
+            // Nếu không có ảnh, sử dụng no_image.png
+            return asset('images/no_image.png');
         }
 
-        // Kiểm tra file có tồn tại trong storage không
-        if (Storage::disk('public')->exists($this->image)) {
-            return Storage::disk('public')->url($this->image);
+        // Nếu đã là URL đầy đủ, trả về trực tiếp
+        if (str_starts_with($imageUrl, 'http')) {
+            return $imageUrl;
         }
 
-        // Fallback nếu file không tồn tại
-        return $this->createNoImageIfNotExists();
+        // Kiểm tra file có tồn tại trong public/storage không
+        $fullPath = public_path('storage/' . $imageUrl);
+        if (file_exists($fullPath)) {
+            return asset('storage/' . $imageUrl);
+        }
+
+        // Nếu file không tồn tại, fallback về no_image
+        return asset('images/no_image.png');
     }
 
     /**
@@ -98,14 +106,62 @@ class Product extends Model
     }
 
     /**
+     * Tạo file ảnh no_image
+     */
+    private function createNoImageFile($path)
+    {
+        // Tạo ảnh no_image đơn giản
+        $width = 400;
+        $height = 300;
+        $image = imagecreate($width, $height);
+        
+        // Màu nền xám
+        $bgColor = imagecolorallocate($image, 220, 220, 220);
+        $textColor = imagecolorallocate($image, 100, 100, 100);
+        $borderColor = imagecolorallocate($image, 180, 180, 180);
+        
+        // Vẽ border
+        imagerectangle($image, 0, 0, $width-1, $height-1, $borderColor);
+        
+        // Text "No Image"
+        $text = 'No Image';
+        $fontSize = 5;
+        $textWidth = strlen($text) * imagefontwidth($fontSize);
+        $textHeight = imagefontheight($fontSize);
+        $x = ($width - $textWidth) / 2;
+        $y = ($height - $textHeight) / 2;
+        
+        imagestring($image, $fontSize, $x, $y, $text, $textColor);
+        
+        // Vẽ icon camera đơn giản
+        $iconSize = 40;
+        $iconX = ($width - $iconSize) / 2;
+        $iconY = $y - 60;
+        
+        // Thân camera
+        imagefilledrectangle($image, $iconX, $iconY, $iconX + $iconSize, $iconY + 30, $textColor);
+        // Lens
+        imageellipse($image, $iconX + 20, $iconY + 15, 20, 20, $borderColor);
+        
+        // Lưu file
+        imagepng($image, $path);
+        imagedestroy($image);
+    }
+
+    /**
+     * Xóa ảnh cũ
      */
     private function deleteOldImage()
     {
-        if ($this->image && Storage::disk('public')->exists($this->image)) {
-            Storage::disk('public')->delete($this->image);
+        $imageUrl = $this->attributes['image_url'] ?? null;
+        
+        if ($imageUrl && !str_contains($imageUrl, 'no_image.png')) {
+            $imagePath = public_path('storage/' . $imageUrl);
+            if (file_exists($imagePath)) {
+                unlink($imagePath);
+            }
         }
     }
-
 
     protected static function boot()
     {
@@ -116,3 +172,4 @@ class Product extends Model
         });
     }
 }
+
